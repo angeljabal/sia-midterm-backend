@@ -25,9 +25,12 @@ Route::group(['middleware'=>'auth:api'], function(){
     Route::post('/movies/search', [MovieController::class, 'search']);
     Route::post('/movies', [MovieController::class, 'store']);
     Route::get('/movies', [MovieController::class, 'index']);
-    Route::get('/movies/{movie}', [MovieController::class, 'show']);
-    Route::put('/movies/{movie}', [MovieController::class, 'update']);
-    Route::delete('/movies/{movie}', [MovieController::class, 'destroy']);
+
+    Route::group(['middleware'=>'owner'], function() {
+        Route::get('/movies/{movie}', [MovieController::class, 'show']);
+        Route::put('/movies/{movie}', [MovieController::class, 'update']);
+        Route::delete('/movies/{movie}', [MovieController::class, 'destroy']);
+    });
 });
 
 
